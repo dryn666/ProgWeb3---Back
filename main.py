@@ -1,21 +1,22 @@
 import uvicorn
 from fastapi import FastAPI
-######nova branches#####
+
+from app.products import products_controller
+from app.users import user_controller
+
 # 1. Cria a instância principal da nossa aplicação
 app = FastAPI(
     title="API do Meu Projeto",
     version="0.1.0"
 )
 
-# 2. Criando o primeiro endpoint
+app.include_router(products_controller.router)
+app.include_router(user_controller.router)
+
 @app.get("/")
 def read_root():
-    return {"message": "Bem-vindo à API do nosso projeto!"}
+    return {"message": "API está no ar!"}
 
-# 3. Endpoint com Parâmetro de Rota (Path Parameter)
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str | None = None):
-    return {"item_id": item_id, "q": q}
 
 # 4. Código para rodar o servidor
 if __name__ == '__main__':
