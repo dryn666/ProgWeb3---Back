@@ -1,23 +1,25 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.products import products_controller
+from app.products import product_controller
 from app.users import user_controller
+from database import engine, Base
 
-# 1. Cria a instância principal da nossa aplicação
+# Linha mágica que instrui o SQLAlchemy a criar todas as tabelas
+# que herdam da nossa Base (definida em database.py) no banco de dados.
+# Isso só deve ser usado em desenvolvimento para facilitar o setup.
+Base.metadata.create_all(bind=engine)
+
+# 1. Cria a instância principal da aplicação
 app = FastAPI(
     title="API do Meu Projeto",
     version="0.1.0"
 )
 
-app.include_router(products_controller.router)
+# 2. Inclui o roteador de usuários na aplicação principal
 app.include_router(user_controller.router)
-
-@app.get("/")
-def read_root():
-    return {"message": "API está no ar!"}
-
 
 # 4. Código para rodar o servidor
 if __name__ == '__main__':
+    # Este bloco só executa quando rodamos o script diretamente (python main.py)
     uvicorn.run(app, host="0.0.0.0", port=8000)
