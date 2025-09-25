@@ -1,8 +1,9 @@
+# main.py
 import uvicorn
 from fastapi import FastAPI
-
-from app.products import product_controller
-from app.users import user_controller
+from users import user_controller
+from roles import role_controller
+from auth import auth_controller
 from database import engine, Base
 
 # Linha mágica que instrui o SQLAlchemy a criar todas as tabelas
@@ -18,8 +19,13 @@ app = FastAPI(
 
 # 2. Inclui o roteador de usuários na aplicação principal
 app.include_router(user_controller.router)
+app.include_router(role_controller.router)
+app.include_router(auth_controller.router)
 
 # 4. Código para rodar o servidor
 if __name__ == '__main__':
     # Este bloco só executa quando rodamos o script diretamente (python main.py)
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+#PAREI NA 2.5.8
