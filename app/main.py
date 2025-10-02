@@ -27,5 +27,4 @@ if __name__ == '__main__':
     # Este bloco só executa quando rodamos o script diretamente (python main.py)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-
-#PAREI NA 2.5.8
+#BASE64 PARA TRANSFORMAR IMAGEM EM CODIGO E USAR, FICA MAIS LEVE
